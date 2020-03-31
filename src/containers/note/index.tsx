@@ -1,14 +1,14 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import Markdown from 'markdown-to-jsx'
-import styled from 'styled-components'
+import { isNil } from 'lodash/fp'
 
 import { NoteDataType } from '~types/note'
 import { createNote } from '~helpers/notes/create-note'
 import { updateNote, addNote, removeNote } from '~store/notes/actions'
+import { useOnClickOutside } from '~helpers/hooks/use-on-click-outside'
 
-import { Textarea } from '~components/textarea'
+import { DeleteButton } from './components/delete-button'
 
 import * as S from './styled'
 
@@ -21,9 +21,12 @@ export const Note = ({ itemId }: Props) => {
   const dispatch = useDispatch()
 
   const isNew = useMemo(() => itemId === 'new', [itemId])
+
   const note = useSelector(state => (isNew ? null : state.notes.items[itemId]))
 
   const [isEditing, setIsEditing] = useState(() => isNew)
+
+  const toggleEditing = useCallback(() => setIsEditing(v => !v), [])
 
   const handleUpdates = (data: NoteDataType) => {
     if (isNew) {
@@ -38,14 +41,6 @@ export const Note = ({ itemId }: Props) => {
 
   const handleBodyUpdate = (value: string) => handleUpdates({ body: value })
 
-  const toggleEditing = useCallback(() => {
-    if (isEditing && !isNew && note?.body) {
-      dispatch(updateNote(itemId, { body: note.body.trim() }))
-    }
-
-    setIsEditing(v => !v)
-  }, [dispatch, isEditing, isNew, itemId, note])
-
   const handleDelete = () => {
     if (!isNew) {
       dispatch(removeNote(itemId))
@@ -54,15 +49,36 @@ export const Note = ({ itemId }: Props) => {
     history.push('/')
   }
 
+  const handleClickOutside = useCallback(() => void (!isNew && isEditing && setIsEditing(false)), [
+    isEditing,
+    isNew,
+  ])
+
+  const containerRef = useOnClickOutside<HTMLDivElement>(handleClickOutside)
+
+  useEffect(() => {
+    if (note && !isNil(note.body)) {
+      const trimmedBody = note.body.trim()
+
+      if (!isEditing && !isNew && note.body !== trimmedBody) {
+        dispatch(updateNote(itemId, { body: trimmedBody }))
+      }
+    }
+  }, [dispatch, isEditing, isNew, itemId, note])
+
   return (
-    <S.Container>
+    <S.Container ref={containerRef}>
       <S.Header>
         <div></div>
         <S.Utilities>
-          {!isNew && (
-            <S.Utility onClick={toggleEditing}>{isEditing ? 'Stop editing' : 'Edit'}</S.Utility>
+          {isNew ? (
+            <S.Utility onClick={handleDelete}>Cancel</S.Utility>
+          ) : (
+            <>
+              <S.Utility onClick={toggleEditing}>{isEditing ? 'Stop editing' : 'Edit'}</S.Utility>
+              <DeleteButton onClick={handleDelete}>Delete</DeleteButton>
+            </>
           )}
-          <S.Utility onClick={handleDelete}>{isNew ? 'Cancel' : 'Delete'}</S.Utility>
         </S.Utilities>
       </S.Header>
 
