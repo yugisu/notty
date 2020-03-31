@@ -2,13 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-import { Page } from '~containers/page'
+import { extractTitleFromNoteBody } from '~helpers/notes/body-to-title'
 
-const extractTitleFromBody = (body?: string) =>
-  body
-    ?.match(/[\w\s?!.]+/g)
-    ?.reduce((longest, curr) => (curr.length > longest.length ? curr : longest))
-    .trim()
+import { Page } from '~containers/page'
 
 export const NotesList = () => {
   const notes = useSelector(state => state.notes.keys.map(key => state.notes.items[key]))
@@ -31,7 +27,7 @@ export const NotesList = () => {
           {notes.map(note => (
             <li key={note.id}>
               <Link to={`/${note.id}`}>
-                {note.title || extractTitleFromBody(note.body) || note.id}
+                {note.title || extractTitleFromNoteBody(note.body) || note.id}
               </Link>
             </li>
           ))}
