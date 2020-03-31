@@ -15,9 +15,22 @@ export const GlobalStyles = createGlobalStyle`
 
   body {
     background-color: ${props => props.theme.colors.bg};
+    min-height: 100vh;
   }
 
-  body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  body {
     margin: 0;
     padding: 0;
   }
