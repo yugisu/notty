@@ -57,6 +57,13 @@ export const Note = ({ itemId }: Props) => {
   const containerRef = useOnClickOutside<HTMLDivElement>(handleClickOutside)
 
   useEffect(() => {
+    if (note === undefined) {
+      history.push('/new')
+      setIsEditing(true)
+    }
+  }, [history, note])
+
+  useEffect(() => {
     if (note && !isNil(note.body)) {
       const trimmedBody = note.body.trim()
 
