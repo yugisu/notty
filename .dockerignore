@@ -1,0 +1,9 @@
+# Dependencies
+node_modules
+
+# Old build files
+dist
+.cache
+
+# Misc
+yarn-error.log
