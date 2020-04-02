@@ -8,6 +8,7 @@ import { createNote } from '~helpers/notes/create-note'
 import { updateNote, addNote, removeNote } from '~store/notes/actions'
 import { useOnClickOutside } from '~helpers/hooks/use-on-click-outside'
 
+import { Markdown } from '~components/markdown'
 import { DeleteButton } from './components/delete-button'
 
 import * as S from './styled'
@@ -28,18 +29,23 @@ export const Note = ({ itemId }: Props) => {
 
   const toggleEditing = useCallback(() => setIsEditing(v => !v), [])
 
-  const handleUpdates = (data: NoteDataType) => {
-    if (isNew) {
-      const newNote = createNote(data)
+  const handleUpdates = useCallback(
+    (data: NoteDataType) => {
+      if (isNew) {
+        const newNote = createNote(data)
 
-      dispatch(addNote(newNote))
-      history.push(newNote.id)
-    } else {
-      dispatch(updateNote(itemId, data))
-    }
-  }
+        dispatch(addNote(newNote))
+        history.push(newNote.id)
+      } else {
+        dispatch(updateNote(itemId, data))
+      }
+    },
+    [dispatch, history, isNew, itemId],
+  )
 
-  const handleBodyUpdate = (value: string) => handleUpdates({ body: value })
+  const handleBodyUpdate = useCallback((value: string) => handleUpdates({ body: value }), [
+    handleUpdates,
+  ])
 
   const handleDelete = () => {
     if (!isNew) {
@@ -93,7 +99,7 @@ export const Note = ({ itemId }: Props) => {
         <S.Field value={note?.body ?? ''} onChange={handleBodyUpdate} autoFocus />
       ) : (
         <S.PlainInner onDoubleClick={toggleEditing}>
-          <S.Markdown children={note?.body ?? ''} />
+          <Markdown source={note?.body ?? ''} onSourceChange={handleBodyUpdate} />
         </S.PlainInner>
       )}
     </S.Container>
