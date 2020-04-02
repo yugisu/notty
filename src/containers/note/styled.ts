@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import MarkdownComponent from 'markdown-to-jsx'
 
 import { Textarea } from '~components/textarea'
 
@@ -63,5 +62,3 @@ export const Field = styled(Textarea)`
 export const PlainInner = styled.div`
   padding: 1rem;
 `
-
-export const Markdown = styled(MarkdownComponent)``
