@@ -4,8 +4,8 @@ export const GlobalStyles = createGlobalStyle`
   html {
     box-sizing: border-box;
 
-    color: ${props => props.theme.colors.black};
-    font-family: Roboto, sans-serif;
+    color: ${props => props.theme.colors.dark};
+    font-family: 'IBM Plex Serif', serif;
     font-size: 16px;
   }
 
@@ -14,8 +14,10 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background-color: ${props => props.theme.colors.bg};
-    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+
+    background-color: ${props => props.theme.colors.light};
   }
 
   h1,
@@ -28,11 +30,6 @@ export const GlobalStyles = createGlobalStyle`
     &:first-child {
       margin-top: 0;
     }
-  }
-
-  body {
-    margin: 0;
-    padding: 0;
   }
 
   img {
