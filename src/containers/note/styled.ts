@@ -7,7 +7,7 @@ export const Container = styled.div`
   width: 100%;
   min-width: 20rem;
 
-  background-color: ${props => props.theme.colors.bg};
+  background-color: ${props => props.theme.colors.light};
   border: 1px solid #444;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
 `

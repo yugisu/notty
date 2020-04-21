@@ -19,5 +19,5 @@ const ToRender = () => (
   </ThemeProvider>
 )
 
-const rootNode = document.getElementById('app-root')
+const rootNode = document.getElementById('root')
 ReactDOM.render(<ToRender />, rootNode)
