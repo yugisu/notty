@@ -13,7 +13,7 @@ type NotesState = {
 const getInitialState = (): NotesState => {
   const items = getNotes()
   const keys = Object.values(items)
-    .sort((a, b) => a.updatedAt - b.updatedAt)
+    .sort((a, b) => b.updatedAt - a.updatedAt)
     .map(n => n.id)
 
   return {
