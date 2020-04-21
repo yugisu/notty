@@ -7,6 +7,7 @@ const Container = styled.textarea`
 
   padding: 1rem;
   display: block;
+  overflow: hidden;
 
   font: inherit;
 

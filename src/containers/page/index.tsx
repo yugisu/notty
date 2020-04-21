@@ -5,13 +5,15 @@ import { PageHeader } from './components/header'
 
 const Container = styled.div`
   position: relative;
-  padding-top: 5rem;
+  min-height: 100vh;
 
   display: grid;
-  grid-template-columns: 1fr 40rem 1fr;
+  grid-template-columns: minmax(20rem, 1fr) 40rem 1fr;
 `
 
 const Body = styled.main`
+  padding: 4.5rem 1rem 2rem;
+
   grid-column: 2;
 `
 
