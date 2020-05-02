@@ -11,7 +11,7 @@ const Container = styled.ul`
 
   list-style: none;
   margin: 0;
-  padding: 1rem 1rem 2rem 0;
+  padding: 1rem 2rem 2rem 0;
 
   overflow-x: hidden;
   overflow-y: auto;
@@ -35,7 +35,6 @@ const Container = styled.ul`
 
   &::-webkit-scrollbar-thumb {
     background: transparent;
-    border-radius: 0.15rem;
   }
 
   &:hover {
@@ -43,6 +42,10 @@ const Container = styled.ul`
 
     &::-webkit-scrollbar-thumb {
       background: ${props => transparentize(0.5, props.theme.colors.lightGrey)};
+
+      &:hover {
+        background: ${props => transparentize(0.2, props.theme.colors.lightGrey)};
+      }
     }
   }
 `
