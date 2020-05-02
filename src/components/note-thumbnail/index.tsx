@@ -16,6 +16,10 @@ const NoteSnapshot = styled.div`
 
   background-color: ${props => props.theme.colors.white};
   border: 1px solid ${props => props.theme.colors.lightGrey};
+
+  ${Container}:hover & {
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+  }
 `
 
 const Title = styled.span`
