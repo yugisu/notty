@@ -1,7 +1,5 @@
 export type NoteDataType = {
-  body?: string
-  title?: string
-  data?: Record<string, any>
+  body: string
 }
 
 export type NoteMetaType = {
