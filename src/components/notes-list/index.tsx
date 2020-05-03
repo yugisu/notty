@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { transparentize } from 'polished'
 
@@ -11,7 +11,7 @@ const Container = styled.ul`
 
   list-style: none;
   margin: 0;
-  padding: 1rem 2rem 2rem 0;
+  padding: 1rem 1rem 2rem 0;
 
   overflow-x: hidden;
   overflow-y: auto;
@@ -38,13 +38,13 @@ const Container = styled.ul`
   }
 
   &:hover {
-    scrollbar-color: ${props => transparentize(0.5, props.theme.colors.lightGrey)} transparent;
+    scrollbar-color: ${props => transparentize(0.8, props.theme.colors.lightGrey)} transparent;
 
     &::-webkit-scrollbar-thumb {
-      background: ${props => transparentize(0.5, props.theme.colors.lightGrey)};
+      background: ${props => transparentize(0.8, props.theme.colors.lightGrey)};
 
       &:hover {
-        background: ${props => transparentize(0.2, props.theme.colors.lightGrey)};
+        background: ${props => transparentize(0.4, props.theme.colors.lightGrey)};
       }
     }
   }
@@ -56,6 +56,8 @@ const ListLink = styled(Link)`
 `
 
 export const NotesList = () => {
+  const params = useParams<{ noteId?: string }>()
+
   const notes = useSelector(state => state.notes.keys.map(key => state.notes.items[key]))
 
   return (
@@ -69,7 +71,7 @@ export const NotesList = () => {
       {notes.map(note => (
         <li key={note.id}>
           <ListLink to={`/${note.id}`}>
-            <NoteThumbnail note={note} />
+            <NoteThumbnail note={note} highlighted={params.noteId === note.id} />
           </ListLink>
         </li>
       ))}

@@ -4,7 +4,9 @@ import styled from 'styled-components'
 
 import { CustomInput } from './components/custom-input'
 
-const Container = styled.div``
+const Container = styled.div`
+  word-wrap: break-word;
+`
 
 type Props = {
   source: string
