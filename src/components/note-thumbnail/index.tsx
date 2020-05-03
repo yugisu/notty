@@ -91,6 +91,17 @@ export const NoteThumbnail = ({ note, highlighted = false }: Props) => {
               props: { as: 'span' },
             },
           },
+          createElement(type, props, children) {
+            if (typeof type === 'string') {
+              const isFocusable = ['input', 'textarea', 'button', 'a'].includes(type)
+
+              if (isFocusable) {
+                Object.assign(props, { tabIndex: -1 })
+              }
+            }
+
+            return React.createElement(type, props, children)
+          },
         }}
       />
       <Title highlighted={highlighted}>{extractTitleFromNoteBody(note.body) || note.id}</Title>
