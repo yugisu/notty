@@ -15,9 +15,9 @@ export const useOnClickOutside = <TTarget extends HTMLElement>(callback: () => v
     if (elementRef.current) {
       const handleClick = handleClickOutside(elementRef.current, callback)
 
-      document.addEventListener('click', handleClick)
+      document.addEventListener('mousedown', handleClick)
 
-      return () => document.removeEventListener('click', handleClick)
+      return () => document.removeEventListener('mousedown', handleClick)
     }
   }, [callback])
 
