@@ -12,7 +12,7 @@ const Container = styled.div`
 `
 
 const Body = styled.main`
-  padding: 4.5rem 1rem 2rem;
+  padding: 5rem 1rem 2rem;
 
   grid-column: 2;
 `

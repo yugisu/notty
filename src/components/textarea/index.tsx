@@ -12,6 +12,10 @@ const Container = styled.textarea`
   font: inherit;
 
   border: none;
+
+  &:focus {
+    outline: none;
+  }
 `
 
 const resize = (node: HTMLTextAreaElement | null) => {
