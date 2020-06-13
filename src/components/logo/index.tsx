@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom'
 const LinkWrapper = styled(Link)`
   color: inherit;
   text-decoration: none;
-  font-size: 1.5rem;
-  line-height: 1;
 
   &:hover,
   &:focus {
@@ -15,15 +13,18 @@ const LinkWrapper = styled(Link)`
 `
 
 const Container = styled.span`
+  display: block;
+  height: 1.5rem;
+
   font-weight: bold;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
 `
 
 export const Logo = () => {
   return (
     <LinkWrapper to="/">
-      <Container>
-        <span>notty</span>
-      </Container>
+      <Container>notty</Container>
     </LinkWrapper>
   )
 }
