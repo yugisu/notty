@@ -21,6 +21,11 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   h1,
+  h2 {
+    line-height: 1;
+  }
+
+  h1,
   h2,
   h3,
   h4,
