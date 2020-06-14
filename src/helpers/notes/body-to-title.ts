@@ -1,7 +1,9 @@
+const symbolsToRemoveRegexp = /<[^>]*\/?>|#/gim
+
 export const extractTitleFromNoteBody = (body?: string) =>
   body
     ?.split('\n')
+    .map(line => line.trim())
     .filter(line => line.length)[0]
-    ?.match(/[\w\s?!.]+/g)
-    ?.reduce((longest, curr) => (curr.length > longest.length ? curr : longest))
+    ?.replace(symbolsToRemoveRegexp, '')
     .trim()
