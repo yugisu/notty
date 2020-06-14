@@ -1,7 +1,8 @@
-import { uniq, dissoc } from 'lodash/fp'
+import { dissoc, assoc } from 'lodash/fp'
 
 import { NoteType } from '~types/note'
 import { getNotes } from '~helpers/notes/get-notes-from-cache'
+import { transformNotesRecordToState } from './helpers'
 
 import * as actions from './actions'
 
@@ -11,26 +12,23 @@ type NotesState = {
 }
 
 const getInitialState = (): NotesState => {
-  const items = getNotes()
-  const keys = Object.values(items)
-    .sort((a, b) => b.updatedAt - a.updatedAt)
-    .map(n => n.id)
+  const notesRecord = getNotes()
 
-  return {
-    items,
-    keys,
-  }
+  return transformNotesRecordToState(notesRecord)
 }
 
 export const notesReducer = (state = getInitialState(), action: actions.NoteAction): NotesState => {
   switch (action.type) {
+    case actions.updateAllNotes.type:
+      return {
+        ...state,
+        ...action.payload,
+      }
+
     case actions.addNote.type:
       return {
         ...state,
-        items: {
-          ...state.items,
-          [action.payload.id]: action.payload,
-        },
+        items: assoc(action.payload.id, action.payload, state.items),
         keys: [action.payload.id, ...state.keys],
       }
 
@@ -44,7 +42,7 @@ export const notesReducer = (state = getInitialState(), action: actions.NoteActi
             ...action.payload.data,
           },
         },
-        keys: uniq([action.payload.id, ...state.keys]),
+        keys: [action.payload.id, ...state.keys.filter(key => key !== action.payload.id)],
       }
 
     case actions.removeNote.type:
