@@ -3,6 +3,7 @@ import MarkdownComponent from 'markdown-to-jsx'
 import styled from 'styled-components'
 
 import { CustomInput } from './components/custom-input'
+import { CustomLink } from './components/custom-link'
 
 const Container = styled.div`
   word-wrap: break-word;
@@ -48,6 +49,7 @@ export const Markdown = ({ source, onSourceChange }: Props) => {
                 onChange: handleCheckboxClick,
               },
             },
+            a: CustomLink,
           },
         }}
       >
