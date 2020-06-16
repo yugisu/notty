@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
+import { transparentize } from 'polished'
 
 export const GlobalStyles = createGlobalStyle`
   html {
@@ -40,5 +41,25 @@ export const GlobalStyles = createGlobalStyle`
   img {
     max-width: 100%;
     height: auto;
+  }
+
+  body {
+    overflow-y: scroll;
+
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+      width: 0.5rem;
+    }
+
+    scrollbar-color: ${props => transparentize(0.8, props.theme.colors.lightGrey)} transparent;
+
+    &::-webkit-scrollbar-thumb {
+      background: ${props => transparentize(0.8, props.theme.colors.lightGrey)};
+
+      &:hover {
+        background: ${props => transparentize(0.4, props.theme.colors.lightGrey)};
+      }
+    }
   }
 `
