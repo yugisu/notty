@@ -1,11 +1,8 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import { isNil } from 'lodash/fp'
+import { useHistory, useLocation } from 'react-router-dom'
 
-import { NoteDataType } from '~types/note'
-import { createNote } from '~helpers/notes/create-note'
-import { updateNote, addNote, removeNote } from '~store/notes/actions'
+import { updateNote, removeNote } from '~store/notes/actions'
 import { useOnClickOutside } from '~helpers/hooks/use-on-click-outside'
 
 import { Markdown } from '~components/markdown'
@@ -18,73 +15,51 @@ type Props = {
 }
 
 export const Note = ({ itemId }: Props) => {
-  const history = useHistory()
   const dispatch = useDispatch()
+  const history = useHistory()
+  const location = useLocation<{ fromCreated?: boolean }>()
+  const fromCreated = Boolean(location.state?.fromCreated)
 
-  const isNew = useMemo(() => itemId === 'new', [itemId])
+  const note = useSelector(state => state.notes.items[itemId])
 
-  const note = useSelector(state => (isNew ? null : state.notes.items[itemId]))
+  const [isEditing, setIsEditing] = useState(() => fromCreated)
+  const toggleEditing = () => setIsEditing(v => !v)
 
-  const [isEditing, setIsEditing] = useState(() => isNew)
-
-  const toggleEditing = useCallback(() => setIsEditing(v => !v), [])
-
-  const handleUpdates = useCallback(
-    (data: NoteDataType) => {
-      if (isNew) {
-        const newNote = createNote(data)
-
-        dispatch(addNote(newNote))
-        history.push(newNote.id)
-      } else {
-        dispatch(updateNote(itemId, data))
-      }
-    },
-    [dispatch, history, isNew, itemId],
-  )
-
-  const handleBodyUpdate = useCallback((value: string) => handleUpdates({ body: value }), [
-    handleUpdates,
+  const handleBodyUpdate = useCallback((body: string) => dispatch(updateNote(itemId, { body })), [
+    dispatch,
+    itemId,
   ])
 
-  const handleDelete = () => {
-    if (!isNew) {
-      dispatch(removeNote(itemId))
-    }
-
+  const handleDelete = useCallback(() => {
+    dispatch(removeNote(itemId))
     history.push('/')
-  }
+  }, [dispatch, history, itemId])
 
-  const handleClickOutside = useCallback(() => void (!isNew && isEditing && setIsEditing(false)), [
-    isEditing,
-    isNew,
-  ])
+  const handleClickOutside = useCallback(() => isEditing && setIsEditing(false), [isEditing])
 
   const containerRef = useOnClickOutside<HTMLDivElement>(handleClickOutside)
 
   useEffect(() => {
-    if (note === undefined) {
-      history.push('/new')
-      setIsEditing(true)
-    }
-  }, [history, note])
-
-  useEffect(() => {
-    if (note && !isNil(note.body)) {
+    if (note?.body && !isEditing) {
       const trimmedBody = note.body.trim()
 
-      if (!isEditing && !isNew && note.body !== trimmedBody) {
+      if (note.body !== trimmedBody) {
         dispatch(updateNote(itemId, { body: trimmedBody }))
       }
     }
-  }, [dispatch, isEditing, isNew, itemId, note])
+  }, [dispatch, isEditing, itemId, note])
+
+  useEffect(() => void (!note && history.push('/')), [history, note])
+
+  if (!note) {
+    return null
+  }
 
   return (
     <S.Container ref={containerRef}>
       <S.Header>
-        <div></div>
         <S.Utilities>
-          {isNew ? (
+          {fromCreated && !note.body ? (
             <S.Utility onClick={handleDelete}>Cancel</S.Utility>
           ) : (
             <>
@@ -96,10 +71,10 @@ export const Note = ({ itemId }: Props) => {
       </S.Header>
 
       {isEditing ? (
-        <S.Field value={note?.body ?? ''} onChange={handleBodyUpdate} autoFocus />
+        <S.Field value={note.body} onChange={handleBodyUpdate} autoFocus />
       ) : (
         <S.PlainInner onDoubleClick={toggleEditing}>
-          <Markdown source={note?.body ?? ''} onSourceChange={handleBodyUpdate} />
+          <Markdown source={note.body} onSourceChange={handleBodyUpdate} />
         </S.PlainInner>
       )}
     </S.Container>
