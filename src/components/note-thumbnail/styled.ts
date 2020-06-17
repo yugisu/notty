@@ -23,6 +23,9 @@ export const Title = styled.span<{ highlighted?: boolean }>`
 
   ${Container}:hover & {
     text-decoration: underline;
+
+    background-color: ${props =>
+      !props.highlighted && transparentize(0.9, props.theme.colors.lightGrey)};
   }
 `
 
