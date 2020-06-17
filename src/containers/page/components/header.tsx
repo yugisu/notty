@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { useCurrentTheme } from '~containers/app-provider/components/current-theme-provider'
+
 import { Logo } from '~components/logo'
 import { NotesList } from '~components/notes-list'
 
@@ -16,14 +18,31 @@ const Container = styled.header`
 `
 
 const Meta = styled.div`
-  padding: 1.5rem 0 1rem;
+  padding: 1.5rem 1rem 1rem 0;
+  display: flex;
+  align-items: center;
+`
+
+const ThemeToggler = styled.button`
+  margin-left: auto;
+  background: none;
+  border: none;
+
+  cursor: pointer;
 `
 
 export const PageHeader = () => {
+  const { currentTheme, setCurrentTheme } = useCurrentTheme()
+
+  const toggleTheme = () => setCurrentTheme(currentTheme === 'dark' ? 'light' : 'dark')
+
   return (
     <Container>
       <Meta>
         <Logo />
+        <ThemeToggler onClick={toggleTheme} title="Toggle color theme">
+          {currentTheme === 'dark' ? '🌝' : '🌚'}
+        </ThemeToggler>
       </Meta>
 
       <NotesList />
