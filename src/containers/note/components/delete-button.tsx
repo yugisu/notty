@@ -8,7 +8,7 @@ const Container = styled(Utility)<{ clicked: boolean }>`
   ${props =>
     props.clicked &&
     css`
-      background-color: red;
+      background-color: ${props.theme.colors.danger};
       color: ${props.theme.colors.white};
       font-weight: bold;
     `}
