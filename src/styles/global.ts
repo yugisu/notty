@@ -9,7 +9,8 @@ export const GlobalStyles = createGlobalStyle`
     font-family: 'IBM Plex Serif', serif;
     font-size: 16px;
 
-    color-scheme: light dark;
+    /* Following conditional helps to avoid blinking */
+    color-scheme: ${props => props.theme.currentTheme};
   }
 
   *, *:before, *:after {
@@ -21,6 +22,8 @@ export const GlobalStyles = createGlobalStyle`
     padding: 0;
 
     background-color: ${props => props.theme.colors.light};
+
+    transition: background-color 500ms ease;
   }
 
   h1,

@@ -10,12 +10,13 @@ const LinkWrapper = styled(Link)`
   &:focus {
     text-decoration: underline;
   }
+
+  &:active {
+    color: inherit;
+  }
 `
 
 const Container = styled.span`
-  display: block;
-  height: 1.5rem;
-
   font-weight: bold;
   font-size: 1.5rem;
   line-height: 1.5rem;

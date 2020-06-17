@@ -1,5 +1,3 @@
-import { dark } from './media'
-
 type Colors =
   | 'dark'
   | 'white'
@@ -16,7 +14,7 @@ type Theme = {
   colors: Record<Colors, string>
 }
 
-export const lightTheme: Theme = {
+const lightTheme: Theme = {
   currentTheme: 'light',
   colors: {
     dark: '#222',
@@ -31,7 +29,7 @@ export const lightTheme: Theme = {
   },
 }
 
-export const darkTheme: Theme = {
+const darkTheme: Theme = {
   currentTheme: 'dark',
   colors: {
     dark: '#eee',
@@ -46,7 +44,10 @@ export const darkTheme: Theme = {
   },
 }
 
-export const determineTheme = () => (dark.isActive() ? darkTheme : lightTheme)
+export const themes = {
+  light: lightTheme,
+  dark: darkTheme,
+}
 
 declare module 'styled-components' {
   export interface DefaultTheme extends Theme {}
