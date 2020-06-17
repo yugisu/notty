@@ -19,7 +19,7 @@ export const Title = styled.span<{ highlighted?: boolean }>`
   transition: background-color 150ms;
 
   ${props =>
-    props.highlighted && `background-color: ${transparentize(0.9, props.theme.colors.lightGrey)};`}
+    props.highlighted && `background-color: ${transparentize(0.8, props.theme.colors.lightGrey)};`}
 
   ${Container}:hover & {
     text-decoration: underline;
@@ -35,7 +35,7 @@ export const noteSnapshotBase = css`
   height: 5rem;
   width: 7.5rem;
 
-  border: 1px solid ${props => props.theme.colors.lightGrey};
+  border: 1px solid ${props => transparentize(0.4, props.theme.colors.grey)};
 `
 
 export const NoteSnapshot = styled(MarkdownComponent)`
@@ -67,8 +67,12 @@ export const NoteSnapshot = styled(MarkdownComponent)`
     padding-inline-start: 2.5em;
   }
 
+  ${props => props.theme.currentTheme === 'dark' && 'box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);'}
+
   ${Container}:hover & {
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+
+    ${props => props.theme.currentTheme === 'dark' && 'box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);'}
   }
 `
 

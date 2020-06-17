@@ -49,4 +49,8 @@ export const Container = styled.ul`
 export const ListLink = styled(Link)`
   color: inherit;
   text-decoration: none;
+
+  &:active {
+    color: inherit;
+  }
 `
