@@ -8,7 +8,9 @@ export const Container = styled.div`
 `
 
 export const Title = styled.span<{ highlighted?: boolean }>`
+  z-index: -1;
   width: 100%;
+
   padding: 1rem 0.5rem;
 
   font-size: 10px;
@@ -44,7 +46,10 @@ export const noteSnapshotBase = css`
 export const NoteSnapshot = styled(MarkdownComponent)`
   ${noteSnapshotBase}
 
-  padding: .4rem .3rem;
+  margin: 0;
+  display: block;
+
+  padding: 0.4rem 0.3rem;
   overflow: hidden;
 
   font-size: 0.25rem;
