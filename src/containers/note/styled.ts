@@ -8,15 +8,17 @@ export const Container = styled.div`
   min-width: 20rem;
 
   background-color: ${props => props.theme.colors.light};
-  border: 1px solid #444;
+  border: 1px solid ${props => props.theme.colors.grey};
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+
+  ${props => props.theme.currentTheme === 'dark' && 'box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2);'}
 `
 
 export const Header = styled.div`
   position: sticky;
   top: 0;
 
-  padding: 0.5rem 1rem;
+  padding: 0.45rem 1rem 0.35rem;
   display: flex;
 
   background-color: inherit;
@@ -35,7 +37,7 @@ export const Utilities = styled.div`
 export const Utility = styled.button`
   padding: 0.15rem 0.25rem;
 
-  color: #444;
+  color: inherit;
   font-size: 0.8em;
 
   opacity: 0.6;

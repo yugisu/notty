@@ -8,6 +8,8 @@ export const GlobalStyles = createGlobalStyle`
     color: ${props => props.theme.colors.dark};
     font-family: 'IBM Plex Serif', serif;
     font-size: 16px;
+
+    color-scheme: light dark;
   }
 
   *, *:before, *:after {

@@ -9,6 +9,7 @@ const Container = styled.textarea`
   display: block;
   overflow: hidden;
 
+  color: inherit;
   font: inherit;
 
   border: none;
