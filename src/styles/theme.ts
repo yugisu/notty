@@ -1,6 +1,15 @@
 import { dark } from './media'
 
-type Colors = 'dark' | 'white' | 'light' | 'grey' | 'lightGrey' | 'primary' | 'danger'
+type Colors =
+  | 'dark'
+  | 'white'
+  | 'light'
+  | 'grey'
+  | 'lightGrey'
+  | 'primary'
+  | 'danger'
+  | 'link'
+  | 'linkActive'
 
 type Theme = {
   currentTheme: 'light' | 'dark'
@@ -17,6 +26,8 @@ export const lightTheme: Theme = {
     lightGrey: '#bbb',
     primary: '#ff934f',
     danger: 'red',
+    link: '#3a3af0',
+    linkActive: '#fd3232',
   },
 }
 
@@ -30,6 +41,8 @@ export const darkTheme: Theme = {
     lightGrey: '#999',
     primary: '#ff934f',
     danger: 'tomato',
+    link: '#9f9fff',
+    linkActive: '#ff8181',
   },
 }
 

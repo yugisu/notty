@@ -45,6 +45,14 @@ export const GlobalStyles = createGlobalStyle`
     height: auto;
   }
 
+  a {
+    color: ${props => props.theme.colors.link};
+
+    &:active {
+      color: ${props => props.theme.colors.linkActive};
+    }
+  }
+
   body {
     overflow-y: scroll;
 
