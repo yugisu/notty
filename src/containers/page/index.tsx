@@ -1,20 +1,30 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { desktop } from '~helpers/media'
+
 import { PageHeader } from './components/header'
 
 const Container = styled.div`
   position: relative;
   min-height: 100vh;
 
-  display: grid;
-  grid-template-columns: minmax(20rem, 1fr) 40rem 1fr;
+  display: flex;
+  flex-direction: column;
+
+  ${desktop.css`
+    display: grid;
+    grid-template-columns: minmax(20rem, 1fr) 40rem 1fr;
+  `}
 `
 
 const Body = styled.main`
-  padding: 5rem 1rem 2rem;
+  padding: 1rem 1rem 2rem;
 
-  grid-column: 2;
+  ${desktop.css`
+    padding: 5rem 1rem 2rem;
+    grid-column: 2;
+  `}
 `
 
 type Props = {

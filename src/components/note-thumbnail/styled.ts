@@ -2,23 +2,38 @@ import styled, { css } from 'styled-components'
 import MarkdownComponent from 'markdown-to-jsx'
 import { transparentize, darken } from 'polished'
 
+import { tablet } from '~helpers/media'
+
 export const Container = styled.div`
+  flex-grow: 0;
   display: flex;
   align-items: center;
+
+  ${tablet.css`
+    flex-direction: column;
+  `}
 `
 
 export const Title = styled.span<{ highlighted?: boolean }>`
   z-index: -1;
   width: 100%;
+  max-width: 7.5rem;
 
   padding: 1rem 0.5rem;
+  overflow: hidden;
 
   font-size: 10px;
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
+
   border-radius: 0 0.1rem 0.1rem 0;
   transition: background-color 150ms;
+
+  ${tablet.css`
+    padding: 0.75rem 1rem;
+    text-align: center;
+    border-radius: 0 0 0.1rem 0.1rem;
+  `}
 
   ${props =>
     props.highlighted && `background-color: ${transparentize(0.8, props.theme.colors.lightGrey)};`}
