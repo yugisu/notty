@@ -20,10 +20,10 @@ export const Header = styled.div`
   padding: 0.45rem 1rem 0.35rem;
   display: flex;
 
-  background-color: inherit;
-
+  background-color: ${props => props.theme.colors.light};
   border-bottom: 1px solid;
   border-bottom-color: inherit;
+  transition: background-color 500ms ease;
 `
 
 export const Utilities = styled.div`
