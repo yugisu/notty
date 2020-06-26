@@ -1,5 +1,7 @@
 import { css, ThemedCssFunction, DefaultTheme } from 'styled-components'
 
+const darkMedia = '(prefers-color-scheme: dark)'
+
 const desktopMedia = '(min-width: 850px)'
 const tabletMedia = '(max-width: 849px)'
 const mobileMedia = '(max-width: 575px)'
@@ -19,6 +21,8 @@ const createMediaQuery = (query: string): MediaQuery => ({
   `,
   isActive: () => window.matchMedia(query).matches,
 })
+
+export const dark = createMediaQuery(darkMedia)
 
 export const desktop = createMediaQuery(desktopMedia)
 export const tablet = createMediaQuery(tabletMedia)

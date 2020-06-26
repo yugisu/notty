@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { ThemeProvider as SCThemeProvider } from 'styled-components'
 
 import { themes } from '~styles/theme'
-import { dark } from '~styles/media'
+import { dark } from '~helpers/media'
 import { useLocalStorage } from '~helpers/hooks/use-local-storage'
 
 type ThemeContextType = {
