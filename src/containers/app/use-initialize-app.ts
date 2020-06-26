@@ -6,6 +6,9 @@ import { isNoteId } from '~helpers/notes/note-id'
 import { updateAllNotes } from '~store/notes/actions'
 import { getNotes } from '~helpers/notes/get-notes-from-cache'
 
+import { dark } from '~helpers/media'
+import { favicons } from '~helpers/favicons'
+
 const cleanUpLocalStorage = () =>
   entries(localStorage)
     .filter(
@@ -29,4 +32,14 @@ export const useInitializeApp = () => {
 
     return () => window.removeEventListener('storage', reactToStorageChanges)
   }, [dispatch])
+
+  useEffect(() => {
+    if (dark.isActive()) {
+      const iconLinkElement = document.head.querySelector('link[rel=icon]') as HTMLLinkElement
+
+      if (iconLinkElement) {
+        iconLinkElement.href = favicons.dark
+      }
+    }
+  }, [])
 }
