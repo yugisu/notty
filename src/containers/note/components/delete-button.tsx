@@ -4,6 +4,8 @@ import { throttle } from 'lodash'
 
 import { Utility } from '../styled'
 
+const DELETE_TIMEOUT = 850
+
 const Container = styled(Utility)<{ clicked: boolean }>`
   ${props =>
     props.clicked &&
@@ -11,7 +13,8 @@ const Container = styled(Utility)<{ clicked: boolean }>`
       background-color: ${props.theme.colors.danger};
       color: ${props.theme.colors.white};
       font-weight: bold;
-    `}
+      transition: background-color ${DELETE_TIMEOUT}ms ease-out;
+    `};
 `
 
 type Props = React.ComponentPropsWithoutRef<'button'>
@@ -21,7 +24,7 @@ const handleClick = throttle(
     e: E,
     cb?: (e: E) => void,
   ) => cb?.(e),
-  850,
+  DELETE_TIMEOUT,
   { trailing: false },
 )
 

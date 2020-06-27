@@ -41,6 +41,7 @@ export const Utility = styled.button`
 
   opacity: 0.6;
 
+  border-radius: 0.25rem;
   background: none;
   border: none;
   cursor: pointer;
