@@ -1,7 +1,7 @@
 import React, { HTMLAttributes } from 'react'
 import { Link, LinkProps } from 'react-router-dom'
 
-type Props = LinkProps & HTMLAttributes<HTMLAnchorElement>
+type Props = Omit<LinkProps, 'to'> & HTMLAttributes<HTMLAnchorElement>
 
 export const CustomLink = ({ children, ...props }: Props) => {
   const localHref = props.href?.replace(/https?:\/\//i, '') ?? ''
