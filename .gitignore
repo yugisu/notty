@@ -7,3 +7,6 @@ dist
 
 # Log files
 *.log
+
+# Letsencrypt temp directory
+letsencrypt/

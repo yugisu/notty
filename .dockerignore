@@ -7,3 +7,6 @@ dist
 
 # Misc
 yarn-error.log
+
+# Letsencrypt temp directory
+letsencrypt/
