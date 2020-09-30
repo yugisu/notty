@@ -27,6 +27,7 @@ const createResizer = () => {
     if (node) {
       if (!measurementsNode) {
         measurementsNode = node.cloneNode(true) as HTMLTextAreaElement
+        measurementsNode.tabIndex = -1
         measurementsNode.style.position = 'absolute'
         measurementsNode.style.top = '0'
         measurementsNode.style.right = '0'
@@ -48,13 +49,6 @@ const createResizer = () => {
   }
 }
 
-const oldResize = (node: HTMLTextAreaElement | null) => {
-  if (node) {
-    node.style.height = 'auto'
-    node.style.height = node.scrollHeight + 'px'
-  }
-}
-
 type Props = Omit<React.ComponentPropsWithoutRef<'textarea'>, 'onChange' | 'value'> & {
   onChange: (value: string) => void
   value: string
@@ -63,7 +57,7 @@ type Props = Omit<React.ComponentPropsWithoutRef<'textarea'>, 'onChange' | 'valu
 export const Textarea = ({ onChange, value, ...props }: Props) => {
   const containerRef = useRef<HTMLTextAreaElement>(null)
 
-  const resize = useCallback(createResizer(), [createResizer])
+  const resize = useCallback(createResizer(), [])
 
   useLayoutEffect(() => resize(containerRef.current), [resize])
 
