@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import { CustomInput } from './components/custom-input'
 import { CustomLink } from './components/custom-link'
+import { CustomCode } from './components/custom-code'
 
 const Container = styled.div`
   word-wrap: break-word;
@@ -50,6 +51,7 @@ export const Markdown = ({ source, onSourceChange }: Props) => {
               },
             },
             a: CustomLink,
+            code: CustomCode,
           },
         }}
       >
