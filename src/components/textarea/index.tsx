@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect } from 'react'
+import React, { useRef, useLayoutEffect, useCallback } from 'react'
 import styled from 'styled-components'
 
 const Container = styled.textarea`
@@ -19,10 +19,33 @@ const Container = styled.textarea`
   }
 `
 
-const resize = (node: HTMLTextAreaElement | null) => {
-  if (node) {
-    node.style.height = 'auto'
-    node.style.height = node.scrollHeight + 'px'
+const createResizer = () => {
+  let measurementsNode: HTMLTextAreaElement
+  let prevHeight: number
+
+  return (node: HTMLTextAreaElement | null) => {
+    if (node) {
+      if (!measurementsNode) {
+        measurementsNode = node.cloneNode(true) as HTMLTextAreaElement
+        measurementsNode.tabIndex = -1
+        measurementsNode.style.position = 'absolute'
+        measurementsNode.style.top = '0'
+        measurementsNode.style.right = '0'
+        measurementsNode.style.visibility = 'hidden'
+        measurementsNode.style.width = `${node.getBoundingClientRect().width}px`
+        measurementsNode.style.height = 'auto'
+
+        document.body.appendChild(measurementsNode)
+      }
+
+      measurementsNode.value = node.value
+
+      const newHeight = measurementsNode.scrollHeight
+
+      if (newHeight !== prevHeight) {
+        node.style.height = newHeight + 'px'
+      }
+    }
   }
 }
 
@@ -32,9 +55,11 @@ type Props = Omit<React.ComponentPropsWithoutRef<'textarea'>, 'onChange' | 'valu
 }
 
 export const Textarea = ({ onChange, value, ...props }: Props) => {
-  const containerRef = useRef<HTMLTextAreaElement | null>(null)
+  const containerRef = useRef<HTMLTextAreaElement>(null)
 
-  useLayoutEffect(() => resize(containerRef.current), [])
+  const resize = useCallback(createResizer(), [])
+
+  useLayoutEffect(() => resize(containerRef.current), [resize])
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onChange(e.target.value)
