@@ -1,12 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory, useLocation, Redirect } from 'react-router-dom'
 
 import { updateNote, removeNote } from '~store/notes/actions'
 import { useOnClickOutside } from '~helpers/hooks/use-on-click-outside'
 
 import { Markdown } from '~components/markdown'
 import { DeleteButton } from './components/delete-button'
+import { NoteEditView } from './edit-view'
 
 import * as S from './styled'
 
@@ -15,15 +16,16 @@ type Props = {
 }
 
 export const Note = ({ itemId }: Props) => {
-  const dispatch = useDispatch()
   const history = useHistory()
   const location = useLocation<{ fromCreated?: boolean }>()
   const fromCreated = Boolean(location.state?.fromCreated)
 
+  const dispatch = useDispatch()
   const note = useSelector(state => state.notes.items[itemId])
 
   const [isEditing, setIsEditing] = useState(() => fromCreated)
-  const toggleEditing = () => setIsEditing(v => !v)
+
+  const containerRef = useOnClickOutside<HTMLDivElement>(useCallback(() => setIsEditing(false), []))
 
   const handleBodyUpdate = useCallback((body: string) => dispatch(updateNote(itemId, { body })), [
     dispatch,
@@ -35,24 +37,18 @@ export const Note = ({ itemId }: Props) => {
     history.push('/')
   }, [dispatch, history, itemId])
 
-  const handleClickOutside = useCallback(() => isEditing && setIsEditing(false), [isEditing])
-
-  const containerRef = useOnClickOutside<HTMLDivElement>(handleClickOutside)
-
   useEffect(() => {
     if (note?.body && !isEditing) {
       const trimmedBody = note.body.trim()
 
       if (note.body !== trimmedBody) {
-        dispatch(updateNote(itemId, { body: trimmedBody }))
+        handleBodyUpdate(trimmedBody)
       }
     }
-  }, [dispatch, isEditing, itemId, note])
-
-  useEffect(() => void (!note && history.push('/')), [history, note])
+  }, [handleBodyUpdate, isEditing, note])
 
   if (!note) {
-    return null
+    return <Redirect to="/" />
   }
 
   return (
@@ -63,7 +59,9 @@ export const Note = ({ itemId }: Props) => {
             <S.Utility onClick={handleDelete}>Cancel</S.Utility>
           ) : (
             <>
-              <S.Utility onClick={toggleEditing}>{isEditing ? 'Stop editing' : 'Edit'}</S.Utility>
+              <S.Utility onClick={() => setIsEditing(v => !v)}>
+                {isEditing ? 'Stop editing' : 'Edit'}
+              </S.Utility>
               <DeleteButton onClick={handleDelete}>Delete</DeleteButton>
             </>
           )}
@@ -71,9 +69,9 @@ export const Note = ({ itemId }: Props) => {
       </S.Header>
 
       {isEditing ? (
-        <S.Field value={note.body} onChange={handleBodyUpdate} autoFocus />
+        <NoteEditView note={note} onChange={handleBodyUpdate} />
       ) : (
-        <S.PlainInner onDoubleClick={toggleEditing}>
+        <S.PlainInner onDoubleClick={() => setIsEditing(true)}>
           <Markdown source={note.body} onSourceChange={handleBodyUpdate} />
         </S.PlainInner>
       )}
